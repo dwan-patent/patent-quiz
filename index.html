@@ -106,6 +106,50 @@
             text-align: center;
             margin-bottom: 30px;
         }
+
+        .qr-code {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .qr-code:hover {
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .qr-code img {
+            width: 120px;
+            height: 120px;
+            display: block;
+        }
+
+        .qr-code p {
+            margin: 5px 0 0 0;
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .qr-code {
+                right: 10px;
+                transform: translateY(-50%) scale(0.8);
+            }
+            
+            .qr-code:hover {
+                transform: translateY(-50%) scale(0.85);
+            }
+        }
     </style>
 </head>
 <body>
@@ -119,6 +163,12 @@
         
         <div id="result"></div>
         <button onclick="nextQuestion()" id="nextBtn">下一题</button>
+    </div>
+
+    <!-- 添加二维码浮窗 -->
+    <div class="qr-code">
+        <img src="path/to/your/qrcode.jpg" alt="联系我">
+        <p>扫码联系我</p>
     </div>
 
     <script>
@@ -255,7 +305,7 @@
                     description: "你是专利策略的大师！不仅能为地球企业规划专利布局，还能为外星文明提供知识产权咨询。未来你将成为跨星际文明交流的知识产权使者！"
                 },
                 {
-                    title: "千亿级知产公司董事长",
+                    title: "千亿级知产公司��事长",
                     description: "你是天生的商业奇才！战略眼光独到，管理才能出众。未来你将缔造一个市值千亿的知识产权商业帝国，引领全球知识产权行业发展！"
                 }
             ];
