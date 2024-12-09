@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>专利代理师性格测评 - 发现你的知产超能力！</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(45deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .quiz-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .quiz-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .options label {
+            display: block;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: rgba(240, 240, 240, 0.9);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .options label:hover {
+            background-color: rgba(220, 220, 220, 0.9);
+            transform: scale(1.02);
+            border-color: #4CAF50;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        #result {
+            display: none;
+            margin-top: 20px;
+            padding: 25px;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question {
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        h1 {
+            color: #1a2a6c;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h3 {
+            color: #b21f1f;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>专利代理师性格测评</h1>
+        <h3>来测测你的知产超能力！</h3>
+        
+        <div id="quiz">
+            <!-- 测评题目 -->
+        </div>
+        
+        <div id="result"></div>
+        <button onclick="nextQuestion()" id="nextBtn">下一题</button>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "当你看到一个新发明时，你的第一反应是？",
+                options: [
+                    "立即思考如何撰写权利要求书",
+                    "计算这个专利能卖多少钱",
+                    "思考这个发明还能如何改进",
+                    "想象这个发明未来的市场前景"
+                ]
+            },
+            {
+                question: "周末空闲时，你最喜欢做什么？",
+                options: [
+                    "研究最新的专利判例",
+                    "参加各种行业交流活动",
+                    "写写专利分析报告",
+                    "思考知识产权商业模式"
+                ]
+            },
+            {
+                question: "遇到难缠的审查员时，你会？",
+                options: [
+                    "用专业到让人头晕的术语说服他",
+                    "请客吃饭套近乎",
+                    "准备充分的对比文件据理力争",
+                    "换个角度重新撰写申请"
+                ]
+            },
+            {
+                question: "你最向往的工作环境是？",
+                options: [
+                    "安静的个人办公室，专心写申请",
+                    "热闹的大型企业，整天谈判交流",
+                    "高科技研发中心，与发明人共事",
+                    "独立的咨询公司，当老板做决策"
+                ]
+            },
+            {
+                question: "你认为最有成就感的事情是？",
+                options: [
+                    "授权一件极难的发明专利",
+                    "成功签下一个大客户",
+                    "帮客户打赢专利诉讼",
+                    "完成一笔大额知产交易"
+                ]
+            }
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function showQuestion() {
+            const quizDiv = document.getElementById('quiz');
+            const question = questions[currentQuestion];
+            
+            let html = `
+                <div class="question active">
+                    <h3>问题 ${currentQuestion + 1}/5:</h3>
+                    <p>${question.question}</p>
+                    <div class="options">
+            `;
+            
+            question.options.forEach((option, index) => {
+                html += `
+                    <label>
+                        <input type="radio" name="q${currentQuestion}" value="${index}">
+                        ${option}
+                    </label>
+                `;
+            });
+            
+            html += '</div></div>';
+            quizDiv.innerHTML = html;
+        }
+
+        function nextQuestion() {
+            const selected = document.querySelector(`input[name="q${currentQuestion}"]:checked`);
+            if (!selected && currentQuestion < questions.length) {
+                alert('请选择一个选项！');
+                return;
+            }
+            
+            if (selected) {
+                answers.push(parseInt(selected.value));
+            }
+            
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            const resultDiv = document.getElementById('result');
+            const nextBtn = document.getElementById('nextBtn');
+            nextBtn.style.display = 'none';
+            
+            // 根据答案计算结果
+            let result = calculateResult(answers);
+            
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h2>测评结果</h2>
+                <h3>${result.title}</h3>
+                <p>${result.description}</p>
+            `;
+        }
+
+        function calculateResult(answers) {
+            // 统计答案倾向
+            let counts = [0, 0, 0, 0];
+            answers.forEach(answer => counts[answer]++);
+            
+            // 根据最高分确定类型
+            let maxIndex = counts.indexOf(Math.max(...counts));
+            
+            const results = [
+                {
+                    title: "宇宙级专利代理人",
+                    description: "你是专利界的大神！权利要求书在你手中就像魔法棒，能变出无数保护范围。审查员见到你的名字就头大三分。未来的你将成为专利界的传说！"
+                },
+                {
+                    title: "国宝级知识产权销售",
+                    description: "你是天生的谈判家！有你在的地方就有成交的专利。你的社交能力简直就是开挂，未来必定是知识产权交易界的一代宗师！"
+                },
+                {
+                    title: "跨文明知识产权顾问",
+                    description: "你是专利策略的大师！不仅能为地球企业规划专利布局，还能为外星文明提供知识产权咨询。未来你将成为跨星际文明交流的知识产权使者！"
+                },
+                {
+                    title: "千亿级知产公司董事长",
+                    description: "你是天生的商业奇才！战略眼光独到，管理才能出众。未来你将缔造一个市值千亿的知识产权商业帝国，引领全球知识产权行业发展！"
+                }
+            ];
+            
+            return results[maxIndex];
+        }
+
+        // 开始显示第一个问题
+        showQuestion();
+    </script>
+</body>
+</html> 
